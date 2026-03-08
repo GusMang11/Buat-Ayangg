@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Birthday Mission — Untuk Queen ❤️</title>
+    <title>Happy Birthday - For My Queen ❤️</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -657,12 +657,12 @@
         <!-- PAGE 4: DARK SIDE + SECRET CODE -->
         <section>
             <div class="card" style="background:#fff6f8;">
-                <h1 style="color:#d90429;">The Dark Side 😜</h1>
-                <p>Masukin kata rahasia kalau pengen voucher muncul tanpa misi. (Atur ya, manis but tricky!)</p>
-                <input id="secretIn" type="text" placeholder="Ketik kata rahasia..." style="margin: 15px 0;">
+                <h1 style="color:#d90429;">LAST QUESTION ❤️</h1>
+                <p>Kapan kita jadian?</p>
+                <input id="secretIn" type="text" placeholder="Ketik jawabannya disini  sayangg ❤️..." style="margin: 15px 0;">
                 <div style="display:flex; gap:8px; justify-content:center; flex-wrap: wrap;">
-                    <button id="checkSecretBtn" class="btn-pink" onclick="trySecretOneTime()">Cek Rahasia</button>
-                    <button class="btn-mini" onclick="nextPage()">Isi Hati ❤️</button>
+                    <button id="checkSecretBtn" class="btn-pink" onclick="trySecretOneTime()">Cek Jawaban</button>
+                  
                 </div>
                 <p id="secretMsg" style="margin-top: 15px; color: var(--pink-1); font-weight: 600;"></p>
             </div>
@@ -675,7 +675,7 @@
                 <div id="typedLetter" style="text-align:left; font-size:0.95rem; margin-bottom:14px; min-height:120px;"></div>
 
                 <div id="giftVoucher" class="voucher-card">
-                    <p style="font-weight:bold; font-size:1.1rem;">✨ VOUCHER SPECIAL ✨</p>
+                    <p style="font-weight:bold; font-size:1.1rem;">✨ HADIAH SPESIAL ✨</p>
                     <p>Berlaku untuk: Kado Misteri & Peluk Cium</p>
                     <div style="margin-top:8px;">
                         <span class="code" id="voucherCode">- - - - - -</span>
@@ -1042,7 +1042,7 @@
 
         function trySecretOneTime() {
             if(secretTried){
-                document.getElementById('secretMsg').textContent = 'Kesempatan sudah terpakai — voucher hangus.';
+                document.getElementById('secretMsg').textContent = 'Kesempatan sudah terpakai — hadiah hangus.';
                 return;
             }
             const inp = document.getElementById('secretIn');
@@ -1054,7 +1054,7 @@
             secretTried = true;
 
             if(ok){
-                msgEl.textContent = 'WAH BENAR! Voucher langsung nongol...';
+                msgEl.textContent = 'WAH BENAR! Hadiah langsung nongol...';
                 confetti({ particleCount: 120, spread: 150 });
                 spawnHeartsCenter(12);
                 setTimeout(()=> {
@@ -1063,7 +1063,7 @@
                     setTimeout(()=> revealGift(), 1200);
                 }, 600);
             } else {
-                msgEl.textContent = 'Ups, salah sekali. Kesempatan habis — voucher hangus. Lanjutkan misi seperti biasa.';
+                msgEl.textContent = 'Ups, salah sekali, kamu gagal mendapatkan hadiah dan ucapan dari aku.';
                 const btn = document.getElementById('checkSecretBtn');
                 if(btn) btn.remove();
                 if(inp){ inp.disabled = true; inp.style.opacity = 0.7; }
@@ -1090,6 +1090,7 @@
                 }
             }
             typing();
+            typing();
         }
 
         // ========== VOUCHER REVEAL ==========
@@ -1115,7 +1116,7 @@
                     confetti({ particleCount: 160, spread: 200, origin:{y:0.6} });
                     setTimeout(()=> {
                         Swal.fire({
-                            title:'VOUCHER AKTIF! 🎁',
+                            title:' HADIAH DIPEROLEH! 🎁',
                             html: `Kode: <b>${target}</b><br>Datang ke sekolah untuk tukar hadiah.`,
                             icon:'success',
                             confirmButtonText:'Duh Makasih! ❤️',
