@@ -13,135 +13,581 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
     <style>
-        :root {
-            --pink-dark: #ff4d6d;
-            --pink-light: #ffb3c1;
-            --pink-soft: #fff0f3;
-            --glass: rgba(255,255,255,0.9);
-            --card-width: 520px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        html,body { height: 100%; }
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: radial-gradient(ellipse at 10% 10%, #fff6fb 0%, var(--pink-soft) 35%, #ffeef3 100%);
-            color: #333;
+        :root {
+            --pink-1: #ff4d6d;
+            --pink-2: #ff85a1;
+            --pink-3: #ffb3c1;
+            --pink-4: #ffd1dc;
+            --pink-5: #fff0f3;
+            --purple-accent: #d946ef;
+            --glass-light: rgba(255, 255, 255, 0.92);
+            --glass-dark: rgba(255, 255, 255, 0.85);
+            --card-width: 560px;
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
             overflow: hidden;
         }
 
-        .bg-photo {
-            position: fixed; inset: 0;
-            background: url('https://via.placeholder.com/1080x1920?text=Foto+Berdua+Samar') center/cover no-repeat;
-            filter: blur(10px) brightness(0.7); opacity: 0.25; z-index: -3;
-        }
-
-        /* NAV / CONTROLS */
-        .topbar {
-            position: fixed; top: 16px; left: 16px; right: 16px; display:flex; justify-content:space-between; align-items:center; z-index:999;
-        }
-        .progress-dots { display:flex; gap:8px; align-items:center; }
-        .dot { width:12px; height:12px; border-radius:50%; background:rgba(255,255,255,0.6); border:2px solid rgba(255,255,255,0.4); transition:all .3s; }
-        .dot.active { transform:scale(1.4); background:var(--pink-dark); box-shadow:0 6px 18px rgba(255,77,109,.25); border-color:white; }
-        .controls { display:flex; gap:8px; align-items:center; }
-        .btn-mini { background:rgba(255,255,255,0.85); border:none; padding:8px 10px; border-radius:12px; cursor:pointer; box-shadow:0 6px 18px rgba(0,0,0,0.06); font-weight:600; color:var(--pink-dark); }
-
-        /* MASTER SLIDER */
-        .container-master {
-            display:flex; width:500vw; height:100vh; transition:transform 1s cubic-bezier(.2,.9,.3,1);
-        }
-        section { width:100vw; height:100vh; display:flex; align-items:center; justify-content:center; padding:24px; position:relative; }
-
-        .card {
-            width: min(var(--card-width), 92vw);
-            background: var(--glass);
-            border-radius: 28px;
-            padding: 30px;
-            text-align:center;
-            box-shadow: 0 18px 50px rgba(255,77,109,0.12);
-            border: 3px solid rgba(255,255,255,0.8);
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ffeef3 0%, #fff0f3 25%, #ffb3c1 50%, #ffc9d6 75%, #fff6fb 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            color: #2d2d2d;
             position: relative;
         }
-        h1 { font-family:'Dancing Script', cursive; font-size:2.8rem; color:var(--pink-dark); margin-bottom:6px; }
-        p { margin:8px 0 16px; color:#444; }
-        .btn-pink { background:var(--pink-dark); color:white; border:none; padding:12px 30px; border-radius:50px; cursor:pointer; font-weight:700; }
 
-        /* hearts + emoji layer */
-        .emoji-alert { position: fixed; top: 50%; left:50%; transform:translate(-50%,-50%); font-size:100px; z-index:10000; display:none; pointer-events:none; }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
 
-        /* floating hearts effect */
+        /* Animated background elements */
+        .bg-decoration {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        .floating-shape {
+            position: absolute;
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        .shape-1 { width: 200px; height: 200px; background: #ff4d6d; border-radius: 30% 70% 70% 30%; top: 10%; left: 5%; animation: float1 20s ease-in-out infinite; }
+        .shape-2 { width: 150px; height: 150px; background: #d946ef; border-radius: 60% 40% 30% 70%; top: 60%; right: 10%; animation: float2 25s ease-in-out infinite; }
+        .shape-3 { width: 100px; height: 100px; background: #ffb3c1; border-radius: 50% 30% 70% 60%; bottom: 10%; left: 20%; animation: float3 22s ease-in-out infinite; }
+
+        @keyframes float1 { 0%, 100% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-40px) rotate(10deg); } }
+        @keyframes float2 { 0%, 100% { transform: translateX(0px) rotate(0deg); } 50% { transform: translateX(-50px) rotate(-10deg); } }
+        @keyframes float3 { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(30px); } }
+
+        /* TOP BAR */
+        .topbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: linear-gradient(180deg, rgba(255, 77, 109, 0.1) 0%, rgba(255, 77, 109, 0.05) 100%);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            z-index: 999;
+        }
+
+        .progress-dots {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .dot:hover {
+            transform: scale(1.2);
+            background: rgba(255, 77, 109, 0.6);
+        }
+
+        .dot.active {
+            width: 28px;
+            border-radius: 50%;
+            background: var(--pink-1);
+            border-color: white;
+            transform: scale(1.15);
+            box-shadow: 0 0 20px rgba(255, 77, 109, 0.5);
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 77, 109, 0.5); }
+            50% { box-shadow: 0 0 35px rgba(255, 77, 109, 0.8); }
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn-mini {
+            background: var(--glass-light);
+            border: 2px solid rgba(255, 77, 109, 0.2);
+            padding: 10px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--pink-1);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-mini:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 77, 109, 0.2);
+            background: rgba(255, 77, 109, 0.1);
+        }
+
+        .btn-mini:active {
+            transform: translateY(0);
+        }
+
+        /* MAIN CONTAINER */
+        .container-master {
+            display: flex;
+            width: 500vw;
+            height: 100vh;
+            margin-top: 70px;
+            transition: transform 0.85s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        section {
+            width: 100vw;
+            height: calc(100vh - 70px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow-y: auto;
+        }
+
+        section::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        section::-webkit-scrollbar-track {
+            background: rgba(255, 77, 109, 0.1);
+        }
+
+        section::-webkit-scrollbar-thumb {
+            background: var(--pink-1);
+            border-radius: 10px;
+        }
+
+        .card {
+            width: min(var(--card-width), 95vw);
+            background: var(--glass-light);
+            border-radius: 35px;
+            padding: 40px 35px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(255, 77, 109, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .card::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .card::-webkit-scrollbar-track {
+            background: rgba(255, 77, 109, 0.1);
+            border-radius: 10px;
+        }
+
+        .card::-webkit-scrollbar-thumb {
+            background: var(--pink-1);
+            border-radius: 10px;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 77, 109, 0.05) 0%, rgba(217, 70, 239, 0.03) 100%);
+            pointer-events: none;
+        }
+
+        .card > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.2rem;
+            background: linear-gradient(135deg, var(--pink-1) 0%, var(--purple-accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        p {
+            font-size: 1.05rem;
+            color: #555;
+            line-height: 1.6;
+            margin: 12px 0;
+        }
+
+        .btn-pink {
+            background: linear-gradient(135deg, var(--pink-1) 0%, #ff6f86 100%);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: all 0.35s ease;
+            box-shadow: 0 8px 25px rgba(255, 77, 109, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-pink::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .btn-pink:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 35px rgba(255, 77, 109, 0.4);
+        }
+
+        .btn-pink:hover::before {
+            opacity: 1;
+        }
+
+        .btn-pink:active {
+            transform: translateY(-1px);
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 14px;
+            border-radius: 15px;
+            border: 2px solid var(--pink-3);
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--pink-1);
+            box-shadow: 0 0 20px rgba(255, 77, 109, 0.2);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        /* FLOATING HEARTS */
         .floating-heart {
-            position:fixed; pointer-events:none; font-size:28px; opacity:0.95;
-            transform:translate(-50%, -50%) scale(1);
-            animation: floatUp 2.6s ease-out forwards;
+            position: fixed;
+            pointer-events: none;
+            font-size: 32px;
+            font-weight: bold;
             z-index: 9999;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.15);
-        }
-        @keyframes floatUp {
-            0% { transform:translate(-50%, -50%) translateY(0) scale(1); opacity:1;}
-            60% { opacity:1; }
-            100% { transform:translate(-50%, -50%) translateY(-220px) scale(0.85); opacity:0; }
+            animation: heartFloat 3s ease-out forwards;
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15));
         }
 
-        /* photo grid improvements */
-        .photo-grid { display:grid; grid-template-columns: repeat(2,1fr); gap:10px; margin-top:12px; }
-        .photo-item { width:100%; height:140px; object-fit:cover; border-radius:12px; border:3px solid rgba(255,255,255,0.9); cursor:pointer; transition:all .35s; }
-        .photo-item:hover { transform:translateY(-6px) scale(1.02); box-shadow:0 18px 40px rgba(0,0,0,0.12); }
-
-        /* voucher/Lucky reveal */
-        .voucher-card { display:none; margin-top:14px; padding:18px; border-radius:16px; color:white; text-align:center; background:linear-gradient(135deg,#ff7a98,#ff476e); border: 2px dashed rgba(255,255,255,0.9); }
-        .code { font-family:monospace; letter-spacing:2px; padding:8px 12px; border-radius:10px; background:rgba(255,255,255,0.12); display:inline-block; margin-top:8px; }
-
-        /* hidden util */
-        .hidden { display:none !important; }
-
-        /* small helper for funny responses */
-        .funny { color: #b20f3a; font-weight:700; margin-top:10px; }
-
-        /* shake for wrong */
-        .shake { animation: shakeAnim .55s; }
-        @keyframes shakeAnim {
-            0% { transform: translateX(0); }
-            20% { transform: translateX(-14px); }
-            40% { transform: translateX(10px); }
-            60% { transform: translateX(-8px); }
-            80% { transform: translateX(6px); }
-            100% { transform: translateX(0); }
+        @keyframes heartFloat {
+            0% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1) rotate(0deg);
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -280px) scale(0.7) rotate(25deg);
+            }
         }
 
-        /* small responsive */
-        @media (max-width:480px) {
-            h1 { font-size:2.2rem; }
-            .photo-item { height:110px; }
+        /* EMOJI ALERT */
+        .emoji-alert {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 120px;
+            z-index: 10000;
+            display: none;
+            pointer-events: none;
+            animation: emojiPop 0.6s ease-out;
+        }
+
+        @keyframes emojiPop {
+            0% { transform: translate(-50%, -50%) scale(0); }
+            50% { transform: translate(-50%, -50%) scale(1.2); }
+            100% { transform: translate(-50%, -50%) scale(1); }
+        }
+
+        /* PHOTO GRID */
+        .photo-grid-expanded {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin: 20px 0;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .photo-item-expanded {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: 16px;
+            border: 3px solid rgba(255, 77, 109, 0.2);
+            cursor: pointer;
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .photo-item-expanded:hover {
+            transform: translateY(-8px) scale(1.05);
+            border-color: var(--pink-1);
+            box-shadow: 0 15px 40px rgba(255, 77, 109, 0.3);
+        }
+
+        .photo-item-expanded.hidden-item {
+            display: none;
+        }
+
+        /* TAB BUTTONS */
+        .tab-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 2px solid var(--pink-1);
+            background: transparent;
+            color: var(--pink-1);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .tab-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 77, 109, 0.2);
+        }
+
+        .tab-btn.active {
+            background: var(--pink-1) !important;
+            color: white !important;
+            box-shadow: 0 6px 20px rgba(255, 77, 109, 0.3);
+        }
+
+        /* GAME AREA */
+        .game-container {
+            margin: 20px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(255, 77, 109, 0.08) 0%, rgba(217, 70, 239, 0.05) 100%);
+            border-radius: 20px;
+            border: 2px dashed var(--pink-3);
+        }
+
+        .balloon {
+            position: absolute;
+            cursor: pointer;
+            transition: all 0.1s ease;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+        }
+
+        .balloon:hover {
+            transform: scale(1.1);
+            filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.2));
+        }
+
+        /* VOUCHER */
+        .voucher-card {
+            display: none;
+            margin: 25px 0;
+            padding: 25px;
+            border-radius: 20px;
+            color: white;
+            text-align: center;
+            background: linear-gradient(135deg, #ff4d6d 0%, #ff6f86 50%, #d946ef 100%);
+            border: 3px dashed rgba(255, 255, 255, 0.5);
+            box-shadow: 0 15px 40px rgba(255, 77, 109, 0.3);
+            animation: slideInUp 0.6s ease;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .voucher-card p {
+            color: white;
+            font-weight: 600;
+            margin: 8px 0;
+        }
+
+        .code {
+            font-family: 'Courier New', monospace;
+            letter-spacing: 3px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.25);
+            display: inline-block;
+            margin: 12px 0;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .code:hover {
+            background: rgba(255, 255, 255, 0.35);
+            transform: scale(1.05);
+        }
+
+        /* ANIMATIONS */
+        .shake {
+            animation: shakeIt 0.5s;
+        }
+
+        @keyframes shakeIt {
+            0%, 100% { transform: translateX(0); }
+            10% { transform: translateX(-8px); }
+            20% { transform: translateX(8px); }
+            30% { transform: translateX(-8px); }
+            40% { transform: translateX(8px); }
+            50% { transform: translateX(-8px); }
+            60% { transform: translateX(8px); }
+            70% { transform: translateX(-4px); }
+            80% { transform: translateX(4px); }
+            90% { transform: translateX(-2px); }
+        }
+
+        .bounce {
+            animation: bounceIt 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes bounceIt {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .photo-grid-expanded {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 2.4rem; }
+            .card { padding: 30px 20px; }
+            .btn-pink, .btn-mini { padding: 12px 20px; font-size: 0.85rem; }
+            .topbar { padding: 0 12px; }
+            .photo-grid-expanded {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+                gap: 8px;
+            }
+        }
+
+        /* QUIZ PROGRESS */
+        .quiz-progress {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 77, 109, 0.2);
+            border-radius: 10px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        .quiz-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--pink-1) 0%, var(--purple-accent) 100%);
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 10px;
         }
     </style>
 </head>
 <body>
-    <div class="bg-photo"></div>
+    <div class="bg-decoration">
+        <div class="floating-shape shape-1"></div>
+        <div class="floating-shape shape-2"></div>
+        <div class="floating-shape shape-3"></div>
+    </div>
+
     <div id="emojiLayer" class="emoji-alert">😢</div>
 
     <div class="topbar">
         <div class="progress-dots" id="dots"></div>
         <div class="controls">
-            <button id="musicToggle" class="btn-mini" title="Play / Pause Musik">🔈 Musik</button>
-            <button id="helpBtn" class="btn-mini" title="Petunjuk singkat">ℹ️</button>
+            <button id="musicToggle" class="btn-mini" title="Putar / Hentikan Musik">🔈 Musik</button>
+            <button id="helpBtn" class="btn-mini" title="Bantuan">ℹ️ Bantuan</button>
         </div>
     </div>
 
     <audio id="loveSong" loop autoplay muted playsinline preload="auto">
-        <!-- ganti path di bawah dengan file musik Anda (contoh: audio/birthday.mp3) -->
         <source src="love-song.mp3" type="audio/mpeg">
         <source src="audio/birthday.ogg" type="audio/ogg">
         Your browser does not support the audio element.
     </audio>
 
     <div class="container-master" id="master">
-        <!-- PAGE 1: Intro -->
+        <!-- PAGE 1: INTRO -->
         <section>
             <div class="card animate__animated animate__fadeInDown" id="introCard">
                 <h1>Halo Sayang... ❤️</h1>
                 <p>Selamat ulang tahun! Ikuti misi lucu ini biar dapat hadiah (dan pelukan + ciuman xixixi).</p>
-                <div style="display:flex; gap:10px; justify-content:center; margin-top:8px;">
+                <div style="display:flex; gap:10px; justify-content:center; flex-wrap: wrap; margin-top:20px;">
                     <button class="btn-pink" onclick="nextPage()">Buka Buku Cerita ✨</button>
                     <button class="btn-mini" onclick="spawnHeartsCenter(12)">Beri Cinta 💌</button>
                 </div>
@@ -149,80 +595,80 @@
             </div>
         </section>
 
-        <!-- PAGE 2: Quiz (improved) -->
+        <!-- PAGE 2: QUIZ -->
         <section>
             <div class="card" id="quizCard" onclick="spawnHeartAtEvent(event)">
                 <!-- content injected by JS -->
             </div>
         </section>
 
-        <!-- PAGE 3: Photo gallery + mini-game -->
+        <!-- PAGE 3: PHOTO GALLERY + MINI-GAME -->
         <section>
             <div class="card">
-                <h1>Our Beauty ❤️</h1>
-                <p>Klik foto untuk lihat lebih deket — atau main game kecil di bawah!</p>
-                <div class="photo-grid">
-                    <img src="https://via.placeholder.com/400x400?text=Foto+1" class="photo-item" onclick="openPhoto(this.src)">
-                    <img src="https://via.placeholder.com/400x400?text=Foto+2" class="photo-item" onclick="openPhoto(this.src)">
+                <h1>Our Moments 📸</h1>
+                <p>Koleksi momen indah kita berdua dan potret cantikmu yang aku suka! Klik foto untuk melihat lebih dekat.</p>
+                
+                <!-- PHOTO GALLERY WITH TABS -->
+                <div style="margin: 20px 0;">
+                    <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 15px;">
+                        <button class="tab-btn active" onclick="filterPhotos('all')">📷 Semua</button>
+                        <button class="tab-btn" onclick="filterPhotos('couple')">👫 Kita Berdua</button>
+                        <button class="tab-btn" onclick="filterPhotos('solo')">💕 Kamu Cantik</button>
+                    </div>
+
+                    <!-- PHOTO GRID -->
+                    <div class="photo-grid-expanded" id="photoGrid">
+                        <!-- COUPLE PHOTOS -->
+                        <img src="https://via.placeholder.com/400x400?text=Foto+Kita+1&bg=ff4d6d&text_color=ffffff" class="photo-item-expanded" data-category="couple" onclick="openPhotoModal(this.src)">
+                        <img src="https://via.placeholder.com/400x400?text=Foto+Kita+2&bg=ff85a1&text_color=ffffff" class="photo-item-expanded" data-category="couple" onclick="openPhotoModal(this.src)">
+                        <img src="https://via.placeholder.com/400x400?text=Foto+Kita+3&bg=ff6f86&text_color=ffffff" class="photo-item-expanded" data-category="couple" onclick="openPhotoModal(this.src)">
+                        <img src="https://via.placeholder.com/400x400?text=Foto+Kita+4&bg=d946ef&text_color=ffffff" class="photo-item-expanded" data-category="couple" onclick="openPhotoModal(this.src)">
+                        <img src="https://via.placeholder.com/400x400?text=Foto+Kita+5&bg=e879f9&text_color=ffffff" class="photo-item-expanded" data-category="couple" onclick="openPhotoModal(this.src)">
+                        <img src="https://via.placeholder.com/400x400?text=Foto+Kita+6&bg=ff7a98&text_color=ffffff" class="photo-item-expanded" data-category="couple" onclick="openPhotoModal(this.src)">
+                        <img src="https://via.placeholder.com/400x400?text=Foto+Kita+7&bg=ff8faa&text_color=ffffff" class="photo-item-expanded" data-category="couple" onclick="openPhotoModal(this.src)">
+                        <img src="https://via.placeholder.com/400x400?text=Foto+Kita+8&bg=ffa4bb&text_color=ffffff" class="photo-item-expanded" data-category="couple" onclick="openPhotoModal(this.src)">
+                        
+                        <!-- SOLO PHOTOS -->
+                        <img src="https://via.placeholder.com/400x400?text=Foto+Cantik+1&bg=ffb3c1&text_color=ffffff" class="photo-item-expanded" data-category="solo" onclick="openPhotoModal(this.src)">
+                        <img src="https://via.placeholder.com/400x400?text=Foto+Cantik+2&bg=ffc9d6&text_color=ffffff" class="photo-item-expanded" data-category="solo" onclick="openPhotoModal(this.src)">
+                        <img src="https://via.placeholder.com/400x400?text=Foto+Cantik+3&bg=ffd1dc&text_color=ffffff" class="photo-item-expanded" data-category="solo" onclick="openPhotoModal(this.src)">
+                        <img src="https://via.placeholder.com/400x400?text=Foto+Cantik+4&bg=fff0f3&text_color=ff4d6d" class="photo-item-expanded" data-category="solo" onclick="openPhotoModal(this.src)">
+                        <img src="https://via.placeholder.com/400x400?text=Foto+Cantik+5&bg=ffa3ba&text_color=ffffff" class="photo-item-expanded" data-category="solo" onclick="openPhotoModal(this.src)">
+                        <img src="https://via.placeholder.com/400x400?text=Foto+Cantik+6&bg=ffb5ca&text_color=ffffff" class="photo-item-expanded" data-category="solo" onclick="openPhotoModal(this.src)">
+                        <img src="https://via.placeholder.com/400x400?text=Foto+Cantik+7&bg=ffc7da&text_color=ffffff" class="photo-item-expanded" data-category="solo" onclick="openPhotoModal(this.src)">
+                        <img src="https://via.placeholder.com/400x400?text=Foto+Cantik+8&bg=ffcfe2&text_color=ffffff" class="photo-item-expanded" data-category="solo" onclick="openPhotoModal(this.src)">
+                    </div>
                 </div>
-                <div style="margin-top:14px;">
+
+                <!-- PHOTO COUNT DISPLAY -->
+                <p style="font-size: 0.9rem; color: #888; margin: 15px 0;">
+                    📷 <span id="photoCount">Total: 16 Foto</span>
+                </p>
+
+                <!-- GAME & NAVIGATION -->
+                <div style="margin-top:20px;">
                     <button class="btn-pink" onclick="startPopGame()">Main Pop Balon 🎈</button>
-                    <button class="btn-mini" onclick="nextPage()">Lanjut... 😂</button>
+                    <button class="btn-mini" onclick="nextPage()" style="margin-top: 10px;">Lanjut... 😂</button>
                 </div>
                 <div id="popGame" class="hidden" style="margin-top:14px;"></div>
             </div>
         </section>
 
-        <!-- PAGE 4: Dark side + secret code -->
+        <!-- PAGE 4: DARK SIDE + SECRET CODE -->
         <section>
             <div class="card" style="background:#fff6f8;">
                 <h1 style="color:#d90429;">The Dark Side 😜</h1>
                 <p>Masukin kata rahasia kalau pengen voucher muncul tanpa misi. (Atur ya, manis but tricky!)</p>
-                <input id="secretIn" type="text" placeholder="Ketik kata rahasia..." style="width:100%; padding:12px; border-radius:10px; border:2px solid var(--pink-light);">
-                <div style="display:flex; gap:8px; justify-content:center; margin-top:10px;">
+                <input id="secretIn" type="text" placeholder="Ketik kata rahasia..." style="margin: 15px 0;">
+                <div style="display:flex; gap:8px; justify-content:center; flex-wrap: wrap;">
                     <button id="checkSecretBtn" class="btn-pink" onclick="trySecretOneTime()">Cek Rahasia</button>
-                    <script>
-                    (function(){
-                        let tried = false;
-                        // one-time secret check: accept "10", "september" or "10 september" (year optional)
-                        window.trySecretOneTime = function(){
-                            if(tried){
-                                document.getElementById('secretMsg').textContent = 'Kesempatan sudah terpakai — voucher hangus.';
-                                return;
-                            }
-                            const inp = document.getElementById('secretIn');
-                            const v = (inp?.value || '').toLowerCase().trim();
-                            const msgEl = document.getElementById('secretMsg');
-                            if(!v){ msgEl.textContent = 'Ketik dulu dong sayang ~'; return; }
-
-                            const ok = /\b10\b/.test(v) || v.includes('september');
-                            tried = true;
-
-                            if(ok){
-                                msgEl.textContent = 'WAH BENAR! Voucher langsung nongol...';
-                                setTimeout(()=> {
-                                    // navigate to final page and reveal voucher (functions exist in main script)
-                                    setPage(4);
-                                    typeLetter();
-                                    setTimeout(()=> revealGift(), 1200);
-                                }, 600);
-                            } else {
-                                // remove/disable the secret feature permanently after one wrong try
-                                msgEl.textContent = 'Ups, salah sekali. Kesempatan habis — voucher hangus. Lanjutkan misi seperti biasa.';
-                                const btn = document.getElementById('checkSecretBtn');
-                                if(btn) btn.remove();
-                                if(inp){ inp.disabled = true; inp.style.opacity = 0.7; }
-                            }
-                        };
-                    })();
-                    </script>
                     <button class="btn-mini" onclick="nextPage()">Isi Hati ❤️</button>
                 </div>
-                <p class="funny" id="secretMsg"></p>
+                <p id="secretMsg" style="margin-top: 15px; color: var(--pink-1); font-weight: 600;"></p>
             </div>
         </section>
 
-        <!-- PAGE 5: Letter + voucher -->
+        <!-- PAGE 5: LETTER + VOUCHER -->
         <section>
             <div class="card">
                 <h1>For You... ❤️</h1>
@@ -235,225 +681,138 @@
                         <span class="code" id="voucherCode">- - - - - -</span>
                     </div>
                     <p style="font-size:0.8rem; margin-top:10px;">Lokasi Klaim: <b>DI SEKOLAH!</b></p>
-
-                    <p style="font-size:0.8rem; margin-top:10px;"> <b>Cium aku yang spesial buat klaimnya ❤️</b></p>
-
-                
-                    <script>
-                    (function(){
-                        const song = document.getElementById('loveSong');
-                        const btn = document.getElementById('enableMusicBtn');
-
-                        // One-time touchstart handler: many Android browsers require a user gesture to start/unmute audio.
-                        const touchHandler = function startOnTouch() {
-                            try {
-                                song.muted = false;
-                                song.play().catch(()=>{ /* ignore play error */ });
-                                document.getElementById('musicToggle').textContent = '🔊 Stop';
-                            } catch(e){}
-                            window.removeEventListener('touchstart', touchHandler, {passive:true});
-                            if(btn) btn.style.display = 'none';
-                        };
-                        window.addEventListener('touchstart', touchHandler, {passive:true});
-
-                        // Explicit button to enable music if user prefers clicking a control.
-                        if(btn) btn.addEventListener('click', function(){
-                            try {
-                                song.muted = false;
-                                song.play().then(()=> {
-                                    document.getElementById('musicToggle').textContent = '🔊 Stop';
-                                }).catch(()=> { /* play blocked even after click - ignore */ });
-                            } catch(e){}
-                            btn.style.display = 'none';
-                        });
-
-                        // Improve mobile input behavior (keyboard + scrolling)
-                        document.querySelectorAll('input, textarea').forEach(i=>{
-                            i.addEventListener('focus', ()=> { document.body.style.overflow = 'auto'; });
-                            i.addEventListener('blur',  ()=> { document.body.style.overflow = ''; });
-                        });
-
-                        // Defensive: ensure buttons accept pointer events on touch devices
-                        setTimeout(()=> {
-                            document.querySelectorAll('.btn-mini, .btn-pink').forEach(b=> b.style.pointerEvents = 'auto');
-                        }, 400);
-                    })();
-                    </script>
-
-               
+                    <p style="font-size:0.8rem; margin-top:10px;"><b>Cium aku yang spesial buat klaimnya ❤️</b></p>
+                </div>
             </div>
         </section>
     </div>
 
     <script>
-        // Enhanced load notification with pink theme
-Swal.fire({
-    title: '🎵 Aktifkan Musik!',
-    html: 'Klik tombol <b>🔈 Musik</b> di pojok kanan atas untuk mendengarkan musik indah kami 💕<br><span style="font-size:0.9rem; color:#ff4d6d;">✨ Siap-siap terpukau ya! ✨</span>',
-    icon: 'info',
-    iconColor: '#ff4d6d',
-    background: '#fff6fb',
-    confirmButtonColor: '#ff4d6d',
-    confirmButtonText: 'Siap! ❤️',
-    allowOutsideClick: false,
-    didOpen: () => {
-        const musicBtn = document.getElementById('musicToggle');
-        musicBtn.style.animation = 'pulse 2s infinite';
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes pulse { 
-                0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,77,109,0.7); } 
-                50% { transform: scale(1.1); box-shadow: 0 0 0 12px rgba(255,77,109,0); } 
-            }
-            @keyframes sparkle {
-                0%, 100% { opacity: 1; transform: rotate(0deg) scale(1); }
-                50% { opacity: 0.7; transform: rotate(180deg) scale(1.2); }
-            }
-            .sparkle-star { animation: sparkle 1.5s ease-in-out infinite; display: inline-block; }
-        `;
-        document.head.appendChild(style);
-        
-        // Add sparkle effect
-        const titleEl = Swal.getTitle();
-        if(titleEl) titleEl.innerHTML = '🎵 <span class="sparkle-star">✨</span> Aktifkan Musik! <span class="sparkle-star">✨</span>';
-    }
-});
-
-        // Basic state
-        const master = document.getElementById('master');
-        const sections = document.querySelectorAll('section');
-        const dotsContainer = document.getElementById('dots');
+        // ========== ORIGINAL MUSIC SYSTEM ==========
         const song = document.getElementById('loveSong');
         const musicToggle = document.getElementById('musicToggle');
-        let currentPage = 0;
+        let musicPlaying = false;
 
-        // Create progress dots
-        sections.forEach((s,i) => {
-            const d = document.createElement('div');
-            d.className = 'dot' + (i===0 ? ' active' : '');
-            dotsContainer.appendChild(d);
+        // Load notification
+        Swal.fire({
+            title: '🎵 Aktifkan Musik!',
+            html: 'Klik tombol <b>🔈 Musik</b> di pojok kanan atas untuk mendengarkan musik indah kami 💕<br><span style="font-size:0.9rem; color:#ff4d6d;">✨ Siap-siap terpukau ya! ✨</span>',
+            icon: 'info',
+            iconColor: '#ff4d6d',
+            background: '#fff6fb',
+            confirmButtonColor: '#ff4d6d',
+            confirmButtonText: 'Siap! ❤️',
+            allowOutsideClick: false,
+            didOpen: () => {
+                const musicBtn = document.getElementById('musicToggle');
+                musicBtn.style.animation = 'pulse 2s infinite';
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes pulse { 
+                        0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,77,109,0.7); } 
+                        50% { transform: scale(1.1); box-shadow: 0 0 0 12px rgba(255,77,109,0); } 
+                    }
+                `;
+                document.head.appendChild(style);
+            }
         });
 
-        function setPage(n) {
-            currentPage = n;
-            master.style.transform = `translateX(-${currentPage*100}vw)`;
-            // update dots
-            document.querySelectorAll('.dot').forEach((el, idx) => el.classList.toggle('active', idx===currentPage));
-            // special triggers
-            if(currentPage === 1) showQ();
-            if(currentPage === 4) typeLetter();
-            // subtle confetti on arriving last page
-            if(currentPage === sections.length - 1) {
-                setTimeout(()=> confetti({ particleCount: 80, spread: 100, origin:{y:0.6} }), 400);
-            }
-        }
-
-        function nextPage() { setPage(Math.min(sections.length-1, currentPage+1)); }
-
-        // MUSIC CONTROL
-        let musicPlaying = false;
         musicToggle.addEventListener('click', () => {
             if(!musicPlaying) {
-                // Unmute and play on user interaction (browsers require a user gesture to unmute autoplayed audio)
                 song.muted = false;
                 song.play().catch(()=>{ /* ignore play errors */ });
                 musicToggle.textContent = '🔊 Stop';
                 musicPlaying = true;
             } else {
                 song.pause();
-                // mute again when paused to keep initial autoplay behavior safe
                 song.muted = true;
                 musicToggle.textContent = '🔈 Musik';
                 musicPlaying = false;
             }
         });
 
-        // FUN: spawn floating hearts
-        function createHeart(x,y,emoji='💖') {
-            const el = document.createElement('div');
-            el.className = 'floating-heart';
-            el.style.left = x + 'px';
-            el.style.top = y + 'px';
-            el.innerText = emoji;
-            document.body.appendChild(el);
-            setTimeout(()=> el.remove(), 2800);
-        }
-        function spawnHeartsCenter(count=8) {
-            const cx = window.innerWidth/2;
-            const cy = window.innerHeight/2;
-            for(let i=0;i<count;i++){
-                setTimeout(() => createHeart(cx + (Math.random()*160-80), cy + (Math.random()*100-50), ['💖','💕','😍','😘'][Math.floor(Math.random()*4)]), i*70);
+        // ========== PAGE NAVIGATION ==========
+        const master = document.getElementById('master');
+        const sections = document.querySelectorAll('section');
+        const dotsContainer = document.getElementById('dots');
+        let currentPage = 0;
+
+        sections.forEach((s, i) => {
+            const d = document.createElement('div');
+            d.className = 'dot' + (i === 0 ? ' active' : '');
+            d.addEventListener('click', () => setPage(i));
+            dotsContainer.appendChild(d);
+        });
+
+        function setPage(n) {
+            currentPage = Math.max(0, Math.min(n, sections.length - 1));
+            master.style.transform = `translateX(-${currentPage * 100}vw)`;
+            
+            document.querySelectorAll('.dot').forEach((el, idx) => 
+                el.classList.toggle('active', idx === currentPage)
+            );
+
+            if (currentPage === 1) showQ();
+            if (currentPage === sections.length - 1) {
+                setTimeout(() => {
+                    confetti({ particleCount: 80, spread: 100, origin:{y:0.6} });
+                }, 400);
             }
         }
-        function spawnHeartAtEvent(e) {
-            // called from onclick on card; if e is MouseEvent else fallback to center
-            let x = (e && e.clientX) || window.innerWidth/2;
-            let y = (e && e.clientY) || window.innerHeight/2;
-            createHeart(x, y, ['💗','❤','💋','💜'][Math.floor(Math.random()*4)]);
+
+        function nextPage() {
+            setPage(currentPage + 1);
         }
 
-        // --- QUIZ / QUESTIONS (improved interactions) ---
-                const questions = [
-                    {
-                        q: "Siapa orang paling ganteng di dunia?",
-                        type: "free",
-                        hint: "Tulis jawabanmu di sini",
-                        hiddenHint: "Aku sering minta km manggil aku ini kalo vn waktu dulu",
-                        init: (function(){
-                            // patch giveHint() later so the sensitive hint is only shown when user clicks "Butuh Petunjuk?"
-                            const tryPatch = () => {
-                                if (typeof giveHint === 'function' && !giveHint.__patchedByInit) {
-                                    const original = giveHint;
-                                    giveHint = function() {
-                                        const h = questions[qIdx]?.hiddenHint || questions[qIdx]?.hint || '';
-                                        Swal.fire({
-                                            title: 'Petunjuk',
-                                            text: h,
-                                            icon: 'info',
-                                            confirmButtonColor: '#ff4d6d'
-                                        });
-                                    };
-                                    giveHint.__patchedByInit = true;
-                                } else {
-                                    setTimeout(tryPatch, 60);
-                                }
-                            };
-                            tryPatch();
-                            return true;
-                        })(),
-                        attempts: 0,
-                        maxAttempts: 2,
-                        clue: "anak ketiga + sayang",
-                        // validator bisa dipanggil dari checkAns jika ingin validasi khusus:
-                        validate: function(raw) {
-                            const v = (raw || '').toLowerCase();
-                            return v.includes('omang') && v.includes('sayang');
-                        }
-                    },
-                    {
-                        q: "Kapan aku lahir? (format: 17 Agustus 1945)",
-                        type: "date",
-                        hint: "Jawab disiniii sayangg",
-                        hiddenHint: "110108",
-                        attempts: 0,
-                        maxAttempts: 2,
-                        validate: function(raw) {
-                            const v = (raw || '').toLowerCase();
-                            return v.includes('11') && v.includes('januari') && (v.includes('2008') || v.includes('08'));
-                        }
-                    },
-                    { q: "Aku dipanggil apa sama temenku?", type: "panggilan", hint: "Ada tiga opsi konyol...", hiddenHint:"Wira sering banget manggil aku dengan ketiga nama ini" }
-                ];
-                let qIdx = 0;
+        // ========== ORIGINAL QUIZ SYSTEM ==========
+        const questions = [
+            {
+                q: "Siapa orang paling ganteng di dunia?",
+                type: "free",
+                hint: "Tulis jawabanmu di sini",
+                hiddenHint: "Aku sering minta km manggil aku ini kalo vn waktu dulu",
+                attempts: 0,
+                maxAttempts: 2,
+                clue: "anak ketiga + sayang",
+                validate: function(raw) {
+                    const v = (raw || '').toLowerCase();
+                    return v.includes('omang') || v.includes('sayang');
+                }
+            },
+            {
+                q: "Kapan aku lahir? (format: 17 Agustus 1945)",
+                type: "date",
+                hint: "Jawab disiniii sayangg",
+                hiddenHint: "110108",
+                attempts: 0,
+                maxAttempts: 2,
+                validate: function(raw) {
+                    const v = (raw || '').toLowerCase();
+                    return v.includes('11') && v.includes('januari') && (v.includes('2008') || v.includes('08'));
+                }
+            },
+            {
+                q: "Aku dipanggil apa sama temenku?",
+                type: "panggilan",
+                hint: "Ada tiga opsi konyol...",
+                hiddenHint:"Wira sering banget manggil aku dengan ketiga nama ini, sebutin salah satu aja"
+            }
+        ];
+        let qIdx = 0;
 
         function showQ() {
             const card = document.getElementById('quizCard');
             const data = questions[qIdx];
+            const progress = ((qIdx + 1) / questions.length) * 100;
+
             card.innerHTML = `
                 <h1>Misi ${qIdx+1}</h1>
+                <div class="quiz-progress">
+                    <div class="quiz-progress-bar" style="width: ${progress}%"></div>
+                </div>
                 <p>${data.q}</p>
-                <input type="text" id="ansIn" placeholder="${data.hint}" style="width:100%; padding:12px; border-radius:12px; border:2px solid var(--pink-light); text-align:center;">
-                <div style="display:flex; gap:8px; justify-content:center; margin-top:10px;">
+                <input type="text" id="ansIn" placeholder="${data.hint}" autocomplete="off">
+                <div style="display:flex; gap:8px; justify-content:center; flex-wrap: wrap; margin-top:15px;">
                     <button class="btn-pink" onclick="checkAns()">Kirim</button>
                     <button class="btn-mini" onclick="giveHint()">Butuh Petunjuk?</button>
                 </div>
@@ -464,97 +823,14 @@ Swal.fire({
         function giveHint() {
             Swal.fire({
                 title: 'Petunjuk',
-                text: questions[qIdx].hint,
+                text: questions[qIdx].hiddenHint || questions[qIdx].hint,
                 icon: 'info',
-                confirmButtonColor: '#ff4d6d'
+                confirmButtonColor: '#ff4d6d',
+                background: '#fff6fb',
+                iconColor: '#ff4d6d',
             });
         }
 
-        function checkAns() {
-            const val = (document.getElementById('ansIn')?.value || '').toLowerCase().trim();
-            const data = questions[qIdx];
-            const card = document.getElementById('quizCard');
-
-            let isCorrect = false;
-            if(data.type === "free" && val !== "") isCorrect = true;
-            if(data.type === "date") {
-                if(val.includes("11") && val.includes("januari") && (val.includes("2008") || val.includes("08"))) isCorrect = true;
-            }
-            if(data.type === "panggilan" && ["otong","cina","cucukan"].includes(val)) isCorrect = true;
-
-            if(isCorrect) {
-                // celebration + small heart burst
-                confetti({ particleCount: 120, spread:180, origin:{y:0.6} });
-                spawnHeartsCenter(10);
-                qIdx++;
-                if(qIdx < questions.length) {
-                    setTimeout(()=> showQ(), 700);
-                } else {
-                    // finished all quests -> reveal button on final page
-                    nextPage();
-                    // show claim button after short delay via typing trigger
-                }
-            } else {
-                // Wrong answer: shake, emoji, funny dialog
-                card.classList.add('shake');
-                document.getElementById('emojiLayer').style.display = 'block';
-                setTimeout(()=> { card.classList.remove('shake'); document.getElementById('emojiLayer').style.display = 'none'; }, 1100);
-
-                // playful wrong messages
-                const msgs = [
-                    'HUHU SALAH! 😭 Coba lagi dong sayang',
-                    'Waduh, itu jawaban curang 😅',
-                    'Ups, belum dapet nih — coba ingat momen lucu kita!'
-                ];
-                const msg = msgs[Math.floor(Math.random()*msgs.length)];
-                Swal.fire({ title: 'Oops!', text: msg, icon: 'error', confirmButtonColor:'#ff4d6d' });
-            }
-        }
-
-        // TYPEWRITER LETTER on last page
-        let letterTyped = false;
-        function typeLetter() {
-            if(letterTyped) return;
-            letterTyped = true;
-            const msg = "Happy Birthday Sayang! ❤️\n\nTerima kasih sudah selalu ada. Kamu paket lengkap: kadang manis, kadang nyebelin, tapi selalu paling spesial.\n\nUdah lewat misi? Buka hadiahnya sekarang!";
-            let i = 0;
-            const container = document.getElementById('typedLetter');
-            function typing() {
-                if(i < msg.length) {
-                    container.innerHTML += msg.charAt(i) === "\n" ? "<br>" : msg.charAt(i);
-                    i++; setTimeout(typing, 32 + Math.random()*30);
-                } else {
-                    document.getElementById('claimBtn').classList.remove('hidden');
-                }
-            }
-            typing();
-        }
-
-        // SECRET CODE (page 4) — playful easter egg
-        const secretKey = 'kuatiraja'; // contoh kata rahasia, bisa diubah
-        function trySecret() {
-            const v = (document.getElementById('secretIn').value || '').toLowerCase().trim();
-            const msgEl = document.getElementById('secretMsg');
-            if(!v) { msgEl.textContent = 'Ketik dulu dong sayang ~'; return; }
-            if(v === secretKey) {
-                msgEl.textContent = 'WAH BENAR! Voucher langsung nongol...';
-        // shortcut to final voucher
-        setTimeout(()=> {
-            setPage(4);
-            // reveal voucher immediate: start typing letter and then reveal gift shortly after
-            typeLetter();
-            setTimeout(()=> revealGift(), 1200);
-        }, 600);
-        }
-        }
-
-        // pastikan validasi untuk pertanyaan 1: harus mengandung "omang" ATAU "sayang"
-        questions[0].validate = function(raw){
-            const v = (raw || '').toLowerCase();
-            return v.includes('omang') || v.includes('sayang');
-        };
-
-        // override checkAns agar memakai validator jika tersedia (lebih aman & konsisten)
         function checkAns() {
             const val = (document.getElementById('ansIn')?.value || '').toLowerCase().trim();
             const data = questions[qIdx];
@@ -572,10 +848,10 @@ Swal.fire({
             }
 
             if (isCorrect) {
-                confetti({ particleCount: 120, spread: 180, origin:{y:0.6} });
+                confetti({ particleCount: 120, spread:180, origin:{y:0.6} });
                 spawnHeartsCenter(10);
                 qIdx++;
-                if (qIdx < questions.length) {
+                if(qIdx < questions.length) {
                     setTimeout(()=> showQ(), 700);
                 } else {
                     nextPage();
@@ -583,16 +859,128 @@ Swal.fire({
             } else {
                 card.classList.add('shake');
                 document.getElementById('emojiLayer').style.display = 'block';
-                setTimeout(()=> { card.classList.remove('shake'); document.getElementById('emojiLayer').style.display = 'none'; }, 1100);
+                document.getElementById('emojiLayer').textContent = '😭';
+                
+                setTimeout(()=> { 
+                    card.classList.remove('shake'); 
+                    document.getElementById('emojiLayer').style.display = 'none'; 
+                }, 1100);
 
-                // pesan khusus untuk pertanyaan pertama agar jelas kenapa jawaban ditolak
-                const wrongMsg = qIdx === 0
-                    ? 'Jawaban salah😭'
-                    : ['HUHU SALAH! 😭 Coba lagi dong sayang','Waduh, itu jawaban curang 😅','Ups, masih salah nih'][Math.floor(Math.random()*3)];
-
-                Swal.fire({ title: 'Oops!', text: wrongMsg, icon: 'error', confirmButtonColor:'#ff4d6d' });
+                const msgs = [
+                    'HUHU SALAH! 😭 Coba lagi dong sayang',
+                    'Masa  lupa sih sedih banget nih 😢',
+                    'Coba inget inget lagi deh 😔',
+                ];
+                const msg = msgs[Math.floor(Math.random()*msgs.length)];
+                Swal.fire({ 
+                    title: 'Oops!', 
+                    text: msg, 
+                    icon: 'error', 
+                    confirmButtonColor:'#ff4d6d',
+                    background: '#fff6fb',
+                    iconColor: '#ff4d6d',
+                });
             }
         }
+
+        // ========== HEART ANIMATIONS ==========
+        function createHeart(x,y,emoji='💖') {
+            const el = document.createElement('div');
+            el.className = 'floating-heart';
+            el.style.left = x + 'px';
+            el.style.top = y + 'px';
+            el.innerText = emoji;
+            document.body.appendChild(el);
+            setTimeout(()=> el.remove(), 2800);
+        }
+
+        function spawnHeartsCenter(count=8) {
+            const cx = window.innerWidth/2;
+            const cy = window.innerHeight/2;
+            for(let i=0;i<count;i++){
+                setTimeout(() => createHeart(cx + (Math.random()*160-80), cy + (Math.random()*100-50), ['💖','💕','😍','😘','🥰'][Math.floor(Math.random()*5)]), i*70);
+            }
+        }
+
+        function spawnHeartAtEvent(e) {
+            let x = (e && e.clientX) || window.innerWidth/2;
+            let y = (e && e.clientY) || window.innerHeight/2;
+            createHeart(x, y, ['💗','❤','💋','💜'][Math.floor(Math.random()*4)]);
+        }
+
+        // ========== PHOTO GALLERY SYSTEM ==========
+        let currentPhotoFilter = 'all';
+
+        function filterPhotos(category) {
+            currentPhotoFilter = category;
+            const photos = document.querySelectorAll('.photo-item-expanded');
+            let visibleCount = 0;
+
+            photos.forEach(photo => {
+                const photoCategory = photo.getAttribute('data-category');
+                
+                if (category === 'all' || photoCategory === category) {
+                    photo.classList.remove('hidden-item');
+                    visibleCount++;
+                } else {
+                    photo.classList.add('hidden-item');
+                }
+            });
+
+            // Update tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Update photo count
+            document.getElementById('photoCount').textContent = 
+                category === 'all' 
+                    ? `Total: ${visibleCount} Foto` 
+                    : `${category === 'couple' ? 'Foto Kita Berdua' : 'Foto Cantikmu'}: ${visibleCount} Foto`;
+        }
+
+        // ========== ENHANCED PHOTO MODAL ==========
+        function openPhotoModal(src) {
+            Swal.fire({
+                imageUrl: src,
+                imageHeight: 500,
+                imageWidth: 500,
+                showConfirmButton: true,
+                confirmButtonColor: 'var(--pink-1)',
+                confirmButtonText: 'Tutup ❤️',
+                background: 'rgba(255, 255, 255, 0.98)',
+                backdrop: 'rgba(0, 0, 0, 0.5)',
+                borderRadius: '25px',
+                didOpen: () => {
+                    const modal = Swal.getPopup();
+                    modal.style.animation = 'slideInDown 0.4s ease';
+                    
+                    if (!document.querySelector('#photoModalStyle')) {
+                        const style = document.createElement('style');
+                        style.id = 'photoModalStyle';
+                        style.textContent = `
+                            @keyframes slideInDown {
+                                from {
+                                    opacity: 0;
+                                    transform: translateY(-30px);
+                                }
+                                to {
+                                    opacity: 1;
+                                    transform: translateY(0);
+                                }
+                            }
+                        `;
+                        document.head.appendChild(style);
+                    }
+                },
+                willClose: () => {
+                    spawnHeartsCenter(3);
+                }
+            });
+        }
+
+        // ========== BALLOON POP GAME ==========
         function startPopGame() {
             const container = document.getElementById('popGame');
             container.classList.remove('hidden');
@@ -602,6 +990,8 @@ Swal.fire({
             board.style.height = '120px';
             board.style.position = 'relative';
             board.style.overflow = 'hidden';
+            board.style.borderRadius = '15px';
+            board.style.background = 'rgba(255, 255, 255, 0.5)';
             container.appendChild(board);
 
             let popped = 0;
@@ -621,69 +1011,118 @@ Swal.fire({
                 b.style.boxShadow = '0 10px 20px rgba(0,0,0,0.12)';
                 b.style.cursor = 'pointer';
                 board.appendChild(b);
-                // animate up
+                
                 const dur = 3500 + Math.random()*2200;
                 b.animate([
                     { transform: 'translateY(0)' },
                     { transform: 'translateY(-180px)' }
                 ], { duration: dur, easing:'linear' });
-                // remove after duration
+                
                 setTimeout(()=> { if(b.parentElement) b.remove(); }, dur+200);
 
                 b.addEventListener('click', (e) => {
                     popped++;
-                    // little pop effect
                     createHeart(e.clientX, e.clientY, popped % 2 ? '💥' : '💗');
                     b.remove();
                     if(popped >= needed) {
                         board.innerHTML = '';
                         container.innerHTML += `<p style="margin-top:10px;">Yeay! Kamu menang 🎉</p>`;
                         confetti({ particleCount: 100, spread: 140, origin:{y:0.6} });
-                        // unlock next page button after delay
                         setTimeout(()=> nextPage(), 900);
                     }
                 });
             };
 
-            // spawn balloons periodically for 8s
             let sp = setInterval(spawn, 500);
             setTimeout(()=> clearInterval(sp), 8500);
         }
 
-        // VOUCHER reveal with scramble animation
+        // ========== SECRET CODE ==========
+        let secretTried = false;
+
+        function trySecretOneTime() {
+            if(secretTried){
+                document.getElementById('secretMsg').textContent = 'Kesempatan sudah terpakai — voucher hangus.';
+                return;
+            }
+            const inp = document.getElementById('secretIn');
+            const v = (inp?.value || '').toLowerCase().trim();
+            const msgEl = document.getElementById('secretMsg');
+            if(!v){ msgEl.textContent = 'Ketik dulu dong sayang ~'; return; }
+
+            const ok = /\b10\b/.test(v) || v.includes('september');
+            secretTried = true;
+
+            if(ok){
+                msgEl.textContent = 'WAH BENAR! Voucher langsung nongol...';
+                confetti({ particleCount: 120, spread: 150 });
+                spawnHeartsCenter(12);
+                setTimeout(()=> {
+                    setPage(sections.length - 1);
+                    typeLetter();
+                    setTimeout(()=> revealGift(), 1200);
+                }, 600);
+            } else {
+                msgEl.textContent = 'Ups, salah sekali. Kesempatan habis — voucher hangus. Lanjutkan misi seperti biasa.';
+                const btn = document.getElementById('checkSecretBtn');
+                if(btn) btn.remove();
+                if(inp){ inp.disabled = true; inp.style.opacity = 0.7; }
+            }
+        }
+
+        // ========== LETTER TYPEWRITER ==========
+        let letterTyped = false;
+
+        function typeLetter() {
+            if(letterTyped) return;
+            letterTyped = true;
+
+            const msg = "Happy Birthday Sayang! ❤️\n\nTerima kasih sudah selalu ada. Kamu paket lengkap: kadang manis, kadang nyebelin, tapi selalu paling spesial.\n\nUdah lewat misi? Buka hadiahmu dong! 🎁";
+            let i = 0;
+            const container = document.getElementById('typedLetter');
+            function typing() {
+                if(i < msg.length) {
+                    container.innerHTML += msg.charAt(i) === "\n" ? "<br>" : msg.charAt(i);
+                    i++; 
+                    setTimeout(typing, 32 + Math.random()*30);
+                } else {
+                    document.getElementById('claimBtn')?.classList.remove('hidden');
+                }
+            }
+            typing();
+        }
+
+        // ========== VOUCHER REVEAL ==========
         function revealGift() {
-            const btn = document.getElementById('claimBtn');
             const voucher = document.getElementById('giftVoucher');
             const codeEl = document.getElementById('voucherCode');
 
-            btn.style.display = 'none';
             voucher.style.display = 'block';
             voucher.classList.add('animate__animated','animate__backInUp');
 
-            // scramble a fun code then reveal
             const target = 'lanjut di wa yaaa';
             let attempt = '';
             const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-';
             let i = 0;
             const interval = setInterval(() => {
                 attempt = attempt.split('').map((c, idx) => idx < i ? target[idx] : chars[Math.floor(Math.random()*chars.length)]).join('');
-                // ensure length
                 while(attempt.length < target.length) attempt += chars[Math.floor(Math.random()*chars.length)];
                 codeEl.textContent = attempt;
                 i++;
                 if(i > target.length) {
                     clearInterval(interval);
                     codeEl.textContent = target;
-                    // confetti rain
                     confetti({ particleCount: 160, spread: 200, origin:{y:0.6} });
                     setTimeout(()=> {
                         Swal.fire({
                             title:'VOUCHER AKTIF! 🎁',
                             html: `Kode: <b>${target}</b><br>Datang ke sekolah untuk tukar hadiah.`,
                             icon:'success',
-                            confirmButtonText:'Duh Makasih! ❤️'
+                            confirmButtonText:'Duh Makasih! ❤️',
+                            confirmButtonColor: '#ff4d6d',
+                            background: '#fff6fb',
+                            iconColor: '#ff4d6d',
                         }).then(()=> {
-                            // open WA for fun
                             window.open('https://wa.me/628873546473');
                         });
                     }, 900);
@@ -691,43 +1130,39 @@ Swal.fire({
             }, 60);
         }
 
-        // copy voucher shortcut
-        function copyVoucher() {
-            const txt = document.getElementById('voucherCode').textContent || '';
-            navigator.clipboard?.writeText(txt).then(()=> {
-                Swal.fire({ title:'Copied!', text:'Kode voucher disalin ke clipboard 💾', icon:'success', timer:1200, showConfirmButton:false });
-            }).catch(()=> {
-                Swal.fire({ title:'Gagal', text:'Browser ini tidak mengizinkan salin otomatis', icon:'error' });
-            });
-        }
-
-        // Helpful tip button
+        // ========== HELP BUTTON ==========
         document.getElementById('helpBtn').addEventListener('click', ()=> {
             Swal.fire({
-                title: 'Cara main',
-                html: 'Lewati halaman, jawab misi, main pop-balon, dan buka voucher terakhir. Klik kartu untuk bikin hati! <br><i>Petunjuk rahasia: kata rahasia bisa membuka voucher lebih cepat 😉</i>',
-                confirmButtonColor:'#ff4d6d'
+                title: 'Cara Main',
+                html: 'Lewati halaman, jawab misi, main pop-balon, lihat foto cantikmu, dan buka voucher terakhir. Klik kartu untuk bikin hati! <br><i>Petunjuk rahasia: kata rahasia bisa membuka voucher lebih cepat 😉</i>',
+                confirmButtonColor:'#ff4d6d',
+                background: '#fff6fb',
+                iconColor: '#ff4d6d',
             });
         });
 
-        // Init AOS (optional animations)
+        // ========== INIT ==========
         AOS?.init?.();
-
-        // Start at page 0
         setPage(0);
 
-        // Small accessibility: allow arrow keys for navigation
         window.addEventListener('keydown', (e) => {
             if(e.key === 'ArrowRight') nextPage();
             if(e.key === 'ArrowLeft') setPage(Math.max(0, currentPage-1));
         });
 
-        // small fun: click anywhere on intro card to spawn hearts
         document.getElementById('introCard').addEventListener('click', (e) => {
             spawnHeartAtEvent(e);
         });
+
+        // Audio init
+        const touchHandler = function() {
+            if(!musicPlaying) {
+                song.muted = false;
+                song.play().catch(() => {});
+            }
+            document.removeEventListener('touchstart', touchHandler);
+        };
+        document.addEventListener('touchstart', touchHandler);
     </script>
 </body>
-
-
 </html>
