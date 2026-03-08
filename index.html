@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Happy Birthday - For My Queen ❤️</title>
+    <title>Happy Birthday My Princess❤️</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -619,24 +619,24 @@
                     <!-- PHOTO GRID -->
                     <div class="photo-grid-expanded" id="photoGrid">
                         <!-- COUPLE PHOTOS -->
-                        <img src="https://via.placeholder.com/400x400?text=Foto+Kita+1&bg=ff4d6d&text_color=ffffff" class="photo-item-expanded" data-category="couple" onclick="openPhotoModal(this.src)">
-                        <img src="https://via.placeholder.com/400x400?text=Foto+Kita+2&bg=ff85a1&text_color=ffffff" class="photo-item-expanded" data-category="couple" onclick="openPhotoModal(this.src)">
-                        <img src="https://via.placeholder.com/400x400?text=Foto+Kita+3&bg=ff6f86&text_color=ffffff" class="photo-item-expanded" data-category="couple" onclick="openPhotoModal(this.src)">
-                        <img src="https://via.placeholder.com/400x400?text=Foto+Kita+4&bg=d946ef&text_color=ffffff" class="photo-item-expanded" data-category="couple" onclick="openPhotoModal(this.src)">
-                        <img src="https://via.placeholder.com/400x400?text=Foto+Kita+5&bg=e879f9&text_color=ffffff" class="photo-item-expanded" data-category="couple" onclick="openPhotoModal(this.src)">
-                        <img src="https://via.placeholder.com/400x400?text=Foto+Kita+6&bg=ff7a98&text_color=ffffff" class="photo-item-expanded" data-category="couple" onclick="openPhotoModal(this.src)">
-                        <img src="https://via.placeholder.com/400x400?text=Foto+Kita+7&bg=ff8faa&text_color=ffffff" class="photo-item-expanded" data-category="couple" onclick="openPhotoModal(this.src)">
-                        <img src="https://via.placeholder.com/400x400?text=Foto+Kita+8&bg=ffa4bb&text_color=ffffff" class="photo-item-expanded" data-category="couple" onclick="openPhotoModal(this.src)">
+                        <img src="couple1.jpeg" class="photo-item-expanded" data-category="couple" onclick="openPhotoModal(this.src)">
+                        <img src="couple2.jpeg" class="photo-item-expanded" data-category="couple" onclick="openPhotoModal(this.src)">
+                        <img src="couple3.jpeg" class="photo-item-expanded" data-category="couple" onclick="openPhotoModal(this.src)">
+                        <img src="couple4.jpeg" class="photo-item-expanded" data-category="couple" onclick="openPhotoModal(this.src)">
+                        <img src="couple5.jpeg" class="photo-item-expanded" data-category="couple" onclick="openPhotoModal(this.src)">
+                        <img src="couple6.jpeg" class="photo-item-expanded" data-category="couple" onclick="openPhotoModal(this.src)">
+                        <img src="couple7.jpeg" class="photo-item-expanded" data-category="couple" onclick="openPhotoModal(this.src)">
+                        <img src="couple8.jpeg" class="photo-item-expanded" data-category="couple" onclick="openPhotoModal(this.src)">
                         
                         <!-- SOLO PHOTOS -->
-                        <img src="https://via.placeholder.com/400x400?text=Foto+Cantik+1&bg=ffb3c1&text_color=ffffff" class="photo-item-expanded" data-category="solo" onclick="openPhotoModal(this.src)">
-                        <img src="https://via.placeholder.com/400x400?text=Foto+Cantik+2&bg=ffc9d6&text_color=ffffff" class="photo-item-expanded" data-category="solo" onclick="openPhotoModal(this.src)">
-                        <img src="https://via.placeholder.com/400x400?text=Foto+Cantik+3&bg=ffd1dc&text_color=ffffff" class="photo-item-expanded" data-category="solo" onclick="openPhotoModal(this.src)">
-                        <img src="https://via.placeholder.com/400x400?text=Foto+Cantik+4&bg=fff0f3&text_color=ff4d6d" class="photo-item-expanded" data-category="solo" onclick="openPhotoModal(this.src)">
-                        <img src="https://via.placeholder.com/400x400?text=Foto+Cantik+5&bg=ffa3ba&text_color=ffffff" class="photo-item-expanded" data-category="solo" onclick="openPhotoModal(this.src)">
-                        <img src="https://via.placeholder.com/400x400?text=Foto+Cantik+6&bg=ffb5ca&text_color=ffffff" class="photo-item-expanded" data-category="solo" onclick="openPhotoModal(this.src)">
-                        <img src="https://via.placeholder.com/400x400?text=Foto+Cantik+7&bg=ffc7da&text_color=ffffff" class="photo-item-expanded" data-category="solo" onclick="openPhotoModal(this.src)">
-                        <img src="https://via.placeholder.com/400x400?text=Foto+Cantik+8&bg=ffcfe2&text_color=ffffff" class="photo-item-expanded" data-category="solo" onclick="openPhotoModal(this.src)">
+                        <img src="solo1.jpeg" class="photo-item-expanded" data-category="solo" onclick="openPhotoModal(this.src)">
+                        <img src="solo2.jpeg" class="photo-item-expanded" data-category="solo" onclick="openPhotoModal(this.src)">
+                        <img src="solo3.jpeg" class="photo-item-expanded" data-category="solo" onclick="openPhotoModal(this.src)">
+                        <img src="solo4.jpeg" class="photo-item-expanded" data-category="solo" onclick="openPhotoModal(this.src)">
+                        <img src="solo5.jpeg" class="photo-item-expanded" data-category="solo" onclick="openPhotoModal(this.src)">
+                        <img src="solo6.jpeg" class="photo-item-expanded" data-category="solo" onclick="openPhotoModal(this.src)">
+                        <img src="solo7.jpeg" class="photo-item-expanded" data-category="solo" onclick="openPhotoModal(this.src)">
+                        <img src="solo8.jpeg" class="photo-item-expanded" data-category="solo" onclick="openPhotoModal(this.src)">
                     </div>
                 </div>
 
@@ -941,20 +941,32 @@
         }
 
         // ========== ENHANCED PHOTO MODAL ==========
+        let isModalOpen = false;
+
         function openPhotoModal(src) {
+            if (isModalOpen) return; // Prevent multiple modals
+            isModalOpen = true;
+            
+            // Close any existing modals first
+            Swal.close();
+
             Swal.fire({
                 imageUrl: src,
                 imageHeight: 500,
                 imageWidth: 500,
                 showConfirmButton: true,
-                confirmButtonColor: 'var(--pink-1)',
+                confirmButtonColor: '#ff4d6d',
                 confirmButtonText: 'Tutup ❤️',
                 background: 'rgba(255, 255, 255, 0.98)',
                 backdrop: 'rgba(0, 0, 0, 0.5)',
                 borderRadius: '25px',
+                allowOutsideClick: true,
+                allowEscapeKey: true,
                 didOpen: () => {
                     const modal = Swal.getPopup();
-                    modal.style.animation = 'slideInDown 0.4s ease';
+                    if (modal) {
+                        modal.style.animation = 'slideInDown 0.4s ease';
+                    }
                     
                     if (!document.querySelector('#photoModalStyle')) {
                         const style = document.createElement('style');
@@ -973,10 +985,25 @@
                         `;
                         document.head.appendChild(style);
                     }
-                },
-                willClose: () => {
+                }
+            }).then((result) => {
+                // Reset modal state when closed
+                isModalOpen = false;
+                // Spawn hearts after modal closes
+                if (result.dismiss !== Swal.DismissReason.close) {
                     spawnHeartsCenter(3);
                 }
+                // Force remove any remaining backdrop
+                setTimeout(() => {
+                    const backdrops = document.querySelectorAll('.swal2-backdrop');
+                    backdrops.forEach(bp => bp.remove());
+                    const containers = document.querySelectorAll('.swal2-container');
+                    containers.forEach(c => c.remove());
+                }, 100);
+            }).catch((error) => {
+                // Handle any errors
+                isModalOpen = false;
+                console.log('Modal closed');
             });
         }
 
@@ -1135,7 +1162,7 @@
         document.getElementById('helpBtn').addEventListener('click', ()=> {
             Swal.fire({
                 title: 'Cara Main',
-                html: 'Lewati halaman, jawab misi, main pop-balon, lihat foto cantikmu, dan buka voucher terakhir. Klik kartu untuk bikin hati! <br><i>Petunjuk rahasia: kata rahasia bisa membuka voucher lebih cepat 😉</i>',
+                html: 'Lewati halaman, jawab misi, main pop-balon, lihat foto cantikmu, dan dapatkan hadiah! <br><i>Petunjuk penting: Jawab pertanyaan terakhir dengan benar jika ingin hadiah! 😉</i>',
                 confirmButtonColor:'#ff4d6d',
                 background: '#fff6fb',
                 iconColor: '#ff4d6d',
