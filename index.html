@@ -232,61 +232,25 @@
                     <p style="font-weight:bold; font-size:1.1rem;">✨ VOUCHER SPECIAL ✨</p>
                     <p>Berlaku untuk: Kado Misteri & Peluk Cium</p>
                     <div style="margin-top:8px;">
-                        <span class="code" id="voucherCode">- - - - - -</span>
+                        <div style="display:flex;flex-direction:column;gap:10px;align-items:center;width:100%;">
+                            <span class="code" id="voucherCode" style="font-size:1.25rem;padding:14px 18px;display:block;width:100%;text-align:center;letter-spacing:3px;">- - - - - -</span>
+
+                            <!-- Touch-friendly actions for Android: besar, full-width on narrow screens -->
+                            <div style="display:flex;gap:8px;width:100%;">
+                                <button class="btn-pink" style="flex:1;padding:12px 10px;font-size:1rem;border-radius:12px;" onclick="copyVoucher();">📋 Salin Kode</button>
+                                <a class="btn-mini" style="flex:1;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;" href="https://wa.me/628873546473" target="_blank" rel="noopener">💬 Buka WA</a>
+                            </div>
+
+                            <!-- Android-specific hint and small QR fallback for easy scanning from another device -->
+                            <div style="width:100%;display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:6px;">
+                                <small style="font-size:0.82rem;color:rgba(255,255,255,0.95);">Tip Android: tap & tahan pada kode untuk salin, atau pakai tombol Salin.</small>
+                                <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=https://wa.me/628873546473" alt="QR WA" style="width:80px;height:80px;border-radius:8px;border:2px solid rgba(255,255,255,0.12);box-shadow:0 6px 18px rgba(0,0,0,0.08);">
+                            </div>
+                        </div>
                     </div>
                     <p style="font-size:0.8rem; margin-top:10px;">Lokasi Klaim: <b>DI SEKOLAH!</b></p>
 
-                    <p style="font-size:0.8rem; margin-top:10px;"> <b>Cium aku yang spesial buat klaimnya ❤️</b></p>
-
-                    <div style="margin-top:10px; display:flex; gap:8px; justify-content:center; align-items:center; flex-wrap:wrap;">
-                        <button id="enableMusicBtn" class="btn-mini">▶️ Putar Musik (Android)</button>
-                        <button id="focusFixBtn" class="btn-mini" onclick="document.getElementById('voucherCode').scrollIntoView({behavior:'smooth'});">Buka Kode</button>
-                    </div>
-
-                    <p style="font-size:0.8rem; margin-top:8px; color:#555;">
-                        Catatan untuk Android: beberapa browser memblokir autoplay. Tekan tombol "Putar Musik" atau sentuh layar sekali untuk mengizinkan suara. Jika tombol tidak merespon, coba sentuh area kartu lalu tekan lagi.
-                    </p>
-
-                    <script>
-                    (function(){
-                        const song = document.getElementById('loveSong');
-                        const btn = document.getElementById('enableMusicBtn');
-
-                        // One-time touchstart handler: many Android browsers require a user gesture to start/unmute audio.
-                        const touchHandler = function startOnTouch() {
-                            try {
-                                song.muted = false;
-                                song.play().catch(()=>{ /* ignore play error */ });
-                                document.getElementById('musicToggle').textContent = '🔊 Stop';
-                            } catch(e){}
-                            window.removeEventListener('touchstart', touchHandler, {passive:true});
-                            if(btn) btn.style.display = 'none';
-                        };
-                        window.addEventListener('touchstart', touchHandler, {passive:true});
-
-                        // Explicit button to enable music if user prefers clicking a control.
-                        if(btn) btn.addEventListener('click', function(){
-                            try {
-                                song.muted = false;
-                                song.play().then(()=> {
-                                    document.getElementById('musicToggle').textContent = '🔊 Stop';
-                                }).catch(()=> { /* play blocked even after click - ignore */ });
-                            } catch(e){}
-                            btn.style.display = 'none';
-                        });
-
-                        // Improve mobile input behavior (keyboard + scrolling)
-                        document.querySelectorAll('input, textarea').forEach(i=>{
-                            i.addEventListener('focus', ()=> { document.body.style.overflow = 'auto'; });
-                            i.addEventListener('blur',  ()=> { document.body.style.overflow = ''; });
-                        });
-
-                        // Defensive: ensure buttons accept pointer events on touch devices
-                        setTimeout(()=> {
-                            document.querySelectorAll('.btn-mini, .btn-pink').forEach(b=> b.style.pointerEvents = 'auto');
-                        }, 400);
-                    })();
-                    </script>
+                    <p style="font-size:0.8rem; margin-top:10px;"> <b>Cium aku yang spesial buat klaimnya ❤️</b></p></div>
 
                 <div style="margin-top:12px;">
                     <button id="claimBtn" class="btn-pink hidden" onclick="revealGift()">LIHAT HADIAH 🎁</button>
