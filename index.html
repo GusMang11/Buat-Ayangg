@@ -683,6 +683,11 @@
                     <p style="font-size:0.8rem; margin-top:10px;">Lokasi Klaim: <b>DI SEKOLAH!</b></p>
                     <p style="font-size:0.8rem; margin-top:10px;"><b>Cium aku yang spesial buat klaimnya ❤️</b></p>
                 </div>
+
+                <!-- Tombol konfirmasi selesai membaca -->
+                <div id="confirmRead" style="margin-top:20px; display:none;">
+                    <button class="btn-pink" onclick="finishReading()">✅ Aku dah lesai baca sayangg</button>
+                </div>
             </div>
         </section>
     </div>
@@ -1087,7 +1092,7 @@
                 setTimeout(()=> {
                     setPage(sections.length - 1);
                     typeLetter();
-                    setTimeout(()=> revealGift(), 1200);
+                    // revealGift() akan dipanggil setelah user klik tombol konfirmasi
                 }, 600);
             } else {
                 msgEl.textContent = 'Ups, salah sekali, kamu gagal mendapatkan hadiah dan ucapan dari aku.';
@@ -1097,27 +1102,26 @@
             }
         }
 
-       
         // ========== LETTER TYPEWRITER ==========
         let letterTyped = false;
+        let typeIndex = 0;
 
-        function typeLetter() {
+function typeLetter() {
             if(letterTyped) return;
             letterTyped = true;
 
-            const msg = "Happy Birthday Sayang! ❤️\n\nHappy Birthday Sayangkuuu 🥳🥳💗💗, selamat ulang tahun yang ke-18 tahun yaaa sayanggg, ini ultah pertama kamu bareng akuu sama kaya kamu bareng aku di ultah akuu, akuu gabisa ngomong banyakk aku cuma mau berterima kasih sama kamu udah mau nerima aku dan mau bertahan sama aku sejauh ini walaupun mungkin banyak hal - hal dari diri aku yang melenceng jauh dari harapan awal dan ekspektasi kamuu, aku minta maaaf yaaaa. Aku seneng bangett sejak pertama bisa bercanda sama kamu duluu, aku ngerasa awal - awal respon kmu gtu aku udah ngerasa bisa milikin kamu makanya aku jadi mikir serius sama kamu, tapi dapet jga ditengah jalan aku ngerasa km risih sama aku dan aku sempet nyerah, tpi untungnya Tuhan mau kita bareng  -  bareng jadinya dikasi deh rencana biar kita bisa komunikasi lagi trus akhirnya lanjutt, dan sampe skrng aku masih seneng banget bisa milikin kamuu sayangg aku masih ga nyangka km suka aku jgaa, aku gapeduli apa orang bilang tentang km atau tentang kita km gaboleh insecure atau apapun kmu itu terbaik di mata aku makanya aku milih kmuu, udaah yaaa jangan ada insecure - insecure lagii belajar lebih dewasa, klo udah dewasa ga selalu insecure jdi prioritas. Maafin aku jga klo aku masih suka salah, bikin kmu marahh, kesel, bt, dll, aku minta maaaf jga masih jauh dari kata sempurna, aku melenceng jauh dari ekspetasi km diawal aku orangnya gmna yang awal dlu keliatan bagus - bagus sekarang ada jeleknya jgaa, maaaf kmu jadi nerima sisi buruk akuu, makasihh jgaa udah mau bertahan sama aku walaupun aku masih banyak kurangnya makasih udah nerima aku baik buruknya, ngertii kondisi akuu, dan mauu berjuang samaa akuu, kmu dah hebat banget masih bisa bertahan sm aku walaupun aku jauh dari ekspetasi km dan aku nunjukin sisi buruk aku tapi km masih tetep bertahan sama aku. Semangattt yaaa, semoga kita bisa bertahan dan selalu sama - sama kedepannya apapun yang terjadi, apapun rintangannya kita harus laluin sama - sama gaboleh sendiri - sendiri kita harus inget cita - cita kita, masa kamu lupa sih, kita harus saling kuatin satu sama lain kalo cape, jangan mutusin keputusan klo lagi emosi belajar tenangin diri dlu biar ga gegabah, intinya jangan putus sebagai jalan akhir, komunikasiin  , pikirin solusinya sama - sama, semua ada jalan keluarnya. Semogaa kmu jga bisa capai semua cita - cita kamu kedepannya, semua cita - cita yang kmu ceritain ke aku, semoga kita bisa tetep bertahan dan sama - sama kedepannya walaupun banyak rintangan yg menghadang kita pasti bisa ngelewatinnya sama - sama , pokoknya harus sama - sama sampe tua nnti. Aku gatau mau ngomong apaa lagii, intinyaa aku seneng banget ktmu kmu dan seneng atas kehadiran kmu di hidup akuu, semogaaa kamu selalu bisa improve diri kamu sesuai dengan apa yang kamu inginkan, makin sabar ngadepin akuu, makin baik, makin pinter, makinn cantikk tentuunyaa yaaa, maaaf dan makasih atass semuanyaa, semangatt yaaa aku yakin kamu bisa gapaii semua cita - cita kamu dan cita - cita kitaa, semogaaa kita langenggg yaaa sampee tuaa 😁😍🫰🏻.\nTerima kasih sudah selalu ada buat aku. ❤️\n\nHAAPPYY BIRTHDAY MY LOVEE 🥳🥳❤️❤️\n\nUdah lewat misi? Buka hadiahmu dong! 🎁";
-            let i = 0;
+            const msg = "Happy Birthday Sayang! ❤️\n\nHappy Birthday Sayangkuuu 🥳🥳💗💗, selamat ulang tahun yang ke-18 tahun yaaa sayanggg, ini ultah pertama kamu bareng akuu sama kaya kamu bareng aku di ultah akuu, akuu gabisa ngomong banyakk aku cuma mau berterima kasih sama kamu udah mau nerima aku dan mau bertahan sama aku sejauh ini walaupun mungkin banyak hal - hal dari diri aku yang melenceng jauh dari harapan awal dan ekspektasi kamuu, aku minta maaaf yaaaa. Aku seneng bangett sejak pertama bisa bercanda sama kamu duluu, aku ngerasa awal - awal respon kmu gtu aku udah ngerasa bisa milikin kamu makanya aku jadi mikir serius sama kamu, tapi dapet jga ditengah jalan aku ngerasa km risih sama aku dan aku sempet nyerah, tpi untungnya Tuhan mau kita bareng  -  bareng jadinya dikasi deh rencana biar kita bisa komunikasi lagi trus akhirnya lanjutt, dan sampe skrng aku masih seneng banget bisa milikin kamuu sayangg aku masih ga nyangka km suka aku jgaa, aku gapeduli apa orang bilang tentang km atau tentang kita km gaboleh insecure atau apapun kmu itu terbaik di mata aku makanya aku milih kmuu, udaah yaaa jangan ada insecure - insecure lagii belajar lebih dewasa, klo udah dewasa ga selalu insecure jdi prioritas. Maafin aku jga klo aku masih suka salah, bikin kmu marahh, kesel, bt, dll, aku minta maaaf jga masih jauh dari kata sempurna, aku melenceng jauh dari ekspetasi km diawal aku orangnya gmna yang awal dlu keliatan bagus - bagus sekarang ada jeleknya jgaa, maaaf kmu jadi nerima sisi buruk akuu, makasihh jgaa udah mau bertahan sama aku walaupun aku masih banyak kurangnya makasih udah nerima aku baik buruknya, ngertii kondisi akuu, dan mauu berjuang samaa akuu, kmu dah hebat banget masih bisa bertahan sm aku walaupun aku jauh dari ekspetasi km dan aku nunjukin sisi buruk aku tapi km masih tetep bertahan sama aku. Semangattt yaaa, semoga kita bisa bertahan dan selalu sama - sama depannya apapun yang terjadi, apapun rintangannya kita harus laluin sama - sama gaboleh sendiri - sendiri kita harus inget cita - cita kita, masa kamu lupa sih, kita harus saling kuatin satu sama lain kalo cape, jangan mutusin keputusan klo lagi emosi belajar tenangin diri dlu biar ga gegabah, intinya jangan putus sebagai jalan akhir, komunikasiin  , pikirin solusinya sama - sama, semua ada jalan keluarnya. Semogaa kmu jga bisa capai semua cita - cita kamu depannya, semua cita - cita yang kmu ceritain ke aku, semoga kita bisa tetep bertahan dan sama - sama depannya надо banyak rintangan yg menghadang kita pasti bisa ngelewatinnya sama - sama , pokoknya harus sama - sama sampe tua nnti. Aku gatau mau ngomong apaa lagii, intinyaa aku seneng banget ktmu kmu dan seneng atas kehadiran kmu di hidup akuu, semogaaa kamu selalu bisa improve diri kamu sesuai dengan apa yang kamu inginkan, makin sabar ngadepin akuu, makin baik, makin pinter, makinn cantikk tentuunyaa yaaa, maaaf dan makasih atass semuanyaa, semangatt yaaa aku yakin kamu bisa gapaii semua cita - cita kamu dan cita - cita kitaa, semogaaa kita langenggg yaaa sampee tuaa 😁😍🫰🏻. Terima kasih sudah selalu ada buat aku. ❤️\n\nHAAPPYY BIRTHDAY MY LOVEE 🥳🥳❤️❤️\n\nUdah lewat misi? Buka hadiahmu dong! 🎁";
             const container = document.getElementById('typedLetter');
             function typing() {
-                if(i < msg.length) {
-                    container.innerHTML += msg.charAt(i) === "\n" ? "<br>" : msg.charAt(i);
-                    i++; 
+                if(typeIndex < msg.length) {
+                    container.innerHTML += msg.charAt(typeIndex) === "\n" ? "<br>" : msg.charAt(typeIndex);
+                    typeIndex++; 
                     setTimeout(typing, 32 + Math.random()*30);
                 } else {
-                    document.getElementById('claimBtn')?.classList.remove('hidden');
+                    // Tampilkan tombol konfirmasi setelah typing selesai
+                    document.getElementById('confirmRead').style.display = 'block';
                 }
             }
-            typing();
             typing();
         }
 
@@ -1159,6 +1163,14 @@
             }, 60);
         }
 
+        // ========== FINISH READING - PANGGIL REVEAL GIFT ==========
+        function finishReading() {
+            // Sembunyikan tombol konfirmasi
+            document.getElementById('confirmRead').style.display = 'none';
+            // Panggil revealGift
+            revealGift();
+        }
+
         // ========== HELP BUTTON ==========
         document.getElementById('helpBtn').addEventListener('click', ()=> {
             Swal.fire({
@@ -1195,4 +1207,3 @@
     </script>
 </body>
 </html>
-
